@@ -1,0 +1,44 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-body {
+  background-color: #e4e2e2;
+  height: 90vh; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(0, 0, 0);
+}
+
+.App-fieldset-3d {
+    width: 80%;
+    margin: 10% auto;
+}
+
+.bt-3d {  
+    width: 100%;
+    height: 45%;
+
+    margin: 2% auto;
+    padding: 2% 0;
+    
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+
