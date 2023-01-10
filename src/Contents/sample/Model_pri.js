@@ -5,6 +5,7 @@ import './CSS/Main.css';
 
 
 const Model_pri = props => {
+    const display_num = 8;
 
     // サーバ通信
     // const url = "http://192.168.2.111:3001/server"; // Labo PC
@@ -15,6 +16,8 @@ const Model_pri = props => {
     let counter = 0;
     const GetData = () => {
         axios.get(url).then((res) => {
+            console.log("console");
+            
             // setData(res.data)
             let ignored_index = [];
             counter = 0;
@@ -28,8 +31,9 @@ const Model_pri = props => {
                     return data;
                 }
             })
-            if (ignored_index.length > 4) {
-                for (let i = 0; i < ignored_index.length - 4;){
+            console.log(ignored_index);
+            if (ignored_index.length > display_num) {
+                for (let i = 0; i < ignored_index.length - display_num;){
                     // const index = ignored_index[Math.floor(Math.random() * ignored_index.length)]
                     const index = ignored_index.pop()
                     formated_data[index].Face = "zz"
@@ -56,7 +60,7 @@ const Model_pri = props => {
                         {
                             data_list.map((data) => {
 
-                            if (counter >= 4) return ""
+                            if (counter >= display_num) return ""
                             else if (data.Face === "b") {
                                 counter++;
                                 return <img src={`${process.env.PUBLIC_URL}/img/joy.png`} alt="Logo" />
@@ -64,8 +68,9 @@ const Model_pri = props => {
                             else if (data.Face === "c") {
                                 counter++;
                                 return <img src={`${process.env.PUBLIC_URL}/img/surprise.png`} alt="Logo" />
-                            }
+                                }
                             else  if (data.Face === "zz" && data.ID === -1) {
+                            // else {
                                 counter++;
                                 return <img src={`${process.env.PUBLIC_URL}/img/neutral.png`} alt="Logo" />
                             }

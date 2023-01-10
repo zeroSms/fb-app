@@ -5,39 +5,54 @@ import './CSS/Main.css';
 
 
 const Model_pri = props => {
-    const display_num = 8;
+    // 表示アイコン数
+    const displayed_num = 8;
 
     // サーバ通信
     // const url = "http://192.168.2.111:3001/server"; // Labo PC
     // const url = "http://192.168.2.19:3001/server"; // note PC - 3H
     const url = "http://192.168.2.111:3001/server"; // note PC - 3H - 5GHz
     // const url = "http://172.19.0.158:3001/server"; // note PC - 4K
+
+    function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    }
+
     const [data_list, setData] = React.useState();
     let counter = 0;
     const GetData = () => {
         axios.get(url).then((res) => {
-            console.log("console");
-
-            let ignored_index = [];
+            // setData(res.data)
             counter = 0;
-            const formated_data_1 = res.data.map((data, index) => {
-                if (data.Face === "b" || data.Face === "c") {
-                    ignored_index.push(data);
-                    return data;
-                }
-            })
-            
-            const formated_data_2 = res.data.map((data, index) => {
-                if ((data.Face === "b" || data.Face === "c")) {
+            const formated_data = res.data.map((data, index) => {
+                if (data.Face === "b" || data.Face === "c" || data.Head === 1 || data.Head === 2) {
                     return data;
                 }
                 else {
-                    ignored_index.push(data);
+                    data.sort = 999;
                     return data;
                 }
             })
-            console.log(ignored_index);
-            setData(ignored_index)
+            // if (noticed_index.length > 0) {
+            //     for (let i = 0; i < noticed_index.length;){
+            //         const n_index = noticed_index[Math.floor(Math.random() * noticed_index.length)]
+            //     }      
+            // }
+            // if (ignored_index.length > 4) {
+            //     for (let i = 0; i < ignored_index.length - 4;){
+            //         // const index = ignored_index[Math.floor(Math.random() * ignored_index.length)]
+            //         const i_index = ignored_index.pop()
+            //         formated_data[i_index].Face = "zz"
+            //         // ignored_index = ignored_index.filter(i_index => i_index !== index)
+            //     }      
+            // }
+            console.log(formated_data);
+            setData(formated_data.sort(function (a, b) {
+                if (a.sort >= b.sort) return 1;
+                if (a.sort < b.sort) return -1;
+            }));
         });
     };
 
@@ -52,7 +67,7 @@ const Model_pri = props => {
                         {
                             data_list.map((data) => {
 
-                            if (counter >= display_num) return ""
+                            if (counter >= 4) return ""
                             else if (data.Face === "b") {
                                 counter++;
                                 return <img src={`${process.env.PUBLIC_URL}/img/joy.png`} alt="Logo" />
@@ -60,7 +75,7 @@ const Model_pri = props => {
                             else if (data.Face === "c") {
                                 counter++;
                                 return <img src={`${process.env.PUBLIC_URL}/img/surprise.png`} alt="Logo" />
-                                }
+                            }
                             else {
                                 counter++;
                                 return <img src={`${process.env.PUBLIC_URL}/img/neutral.png`} alt="Logo" />
