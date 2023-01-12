@@ -1,8 +1,11 @@
 .App {
   text-align: center;
+  position: relative;
+  height: 100%;
 }
 
 .App-header {
+  /* position: absolute; */
   background-color: #282c34;
   height: 10vh;
   display: flex;
@@ -11,17 +14,21 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  overflow: hidden;
 }
 
 .App-body {
+  /* position: absolute; */
   background-color: #e4e2e2;
-  height: 90vh; 
+  /* height: 90vh;  */
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(0, 0, 0);
+  /* overflow-y: scroll; */
 }
 
 .App-fieldset-3d {
