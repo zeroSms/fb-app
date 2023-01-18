@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Link, Element, scroller, animateScroll as scroll } from 'react-scroll';
 
@@ -6,6 +7,7 @@ import './CSS/Main.css';
 import { getIconLength } from './modules/GetIconLength';
 import { selectServer } from './modules/SelectServer';
 import { ScrollImages } from './modules/ScrollImages';
+import { downloadJSON } from './modules/DownloadJSON';
 
 import joy_png from './images/joy.png';
 import joy_nod_gif from './images/joy_nod_1sec.gif';
@@ -21,14 +23,40 @@ import neutral_shake_gif from './images/neutral_shake_1sec.gif';
 const Model_scroll = props => {
     let w_num = 2;
 
+    // User id 取得
+    const location = useLocation();
+    const post_id = location.state.id;
+    let get_data = {}
+
     // サーバ通信
     const url = selectServer();
+
+        // JSON出力
+    const runDownloadJSON = () => {
+        removeListener();
+        // alert('ブラウザバックを検知しました。');
+        let checkSaveFlg = window.confirm('データを保存しますか？');
+        if (checkSaveFlg) {
+            downloadJSON(post_id, "model_scroll", get_data);   // JSON出力
+            document.getElementById("saveResult").textContent = "保存を実行しました。";
+        } else {
+            document.getElementById("saveResult").textContent = "保存をキャンセルしました。";
+        }
+    }
+    // 登録したeventFumcを削除する関数
+    const removeListener = () => {
+        window.removeEventListener("popstate", runDownloadJSON);
+    }
+    // ブラウザバックを検出
+    useEffect(() => {
+        window.history.replaceState(null, null, null);
+        window.addEventListener('popstate', runDownloadJSON);
+    }, []);
 
     // データ取得
     const [data_list, setData] = React.useState();
     const GetData = () => {
         axios.get(url).then((res) => {
-            // console.log("console");
             let ignored_index = []; // 出力用配列
             // scroll.scrollToTop({duration: 1});
 
@@ -38,7 +66,9 @@ const Model_scroll = props => {
                     return data;
                 })
             }
-            // console.log(ignored_index);
+
+            // データログ
+            get_data[Date.now()] = res.data;
             setData(ignored_index)
         });
     };

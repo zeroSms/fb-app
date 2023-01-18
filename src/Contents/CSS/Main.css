@@ -18,9 +18,7 @@
 }
 
 .App-body {
-  /* position: absolute; */
-  background-color: #e4e2e2;
-  /* height: 90vh;  */
+  background-color: #dcdcdc;
   min-height: 90vh;
   display: flex;
   flex-direction: column;
@@ -31,12 +29,24 @@
   /* overflow-y: scroll; */
 }
 
-.App-fieldset-3d {
+.App-fieldset {
     width: 80%;
     margin: 10% auto;
 }
 
-.bt-3d {  
+.bt-login {
+  width: 30%;
+  height: 45%;
+
+  margin: 2% auto;
+  padding: 2% 0;
+
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.bt-main {  
     width: 100%;
     height: 45%;
 
